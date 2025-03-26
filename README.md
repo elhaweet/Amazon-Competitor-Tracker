@@ -1,100 +1,50 @@
-# AI Web Scraper with Crawl4AI  
+# Competitor Tracker: AI-Powered Web Scraping for Competitive Analysis
 
-### 👉 **[Learn How to Scrape and Build Lead Lists Easily with Crawl4AI!](https://dev.to/kaymen99/scrape-any-website-fast-and-cheap-with-crawl4ai-3fj1)**  
+Based on your repository, I can provide a comprehensive description of your project in README format:
 
-This project is an AI-powered web scraper built with [**Crawl4AI**](https://docs.crawl4ai.com/). It automates **lead generation** by extracting local business (Dentists, restaurents,...) names, addresses, phone numbers, and more from [**YellowPages**](https://www.yellowpages.ca/). With the help of LLMs like GPT-4o, Claude, and DeepSeek, it intelligently processes data and saves it in **CSV files**, making it ready for outreach or analysis!  
+## Project Description
 
-## Features  
+Competitor Tracker is an AI-powered web scraping tool built with Crawl4AI that monitors product prices and information from e-commerce websites. The system automatically extracts product details including prices, discounts, ratings, and reviews, storing them in MongoDB for historical analysis and trend identification.
 
-- **Extract Business Information** – Scrape business names, contact details, and other key data.  
-- **AI-Powered Data Processing** – Use LLMs to clean, format, and enhance the extracted data.  
-- **Customizable Scraper** – Adapt it to different websites and data types.  
-- **Flexible LLM Integration** – Choose from AI models like GPT-4, Claude, and DeepSeek.  
+The tool is particularly focused on tracking competitor products, allowing businesses to stay informed about market changes, pricing strategies, and customer sentiment in real-time.
 
-## Adaptability  
+## Key Features
 
-This scraper is designed for **YellowPages** but can be used on **any website**. You can change the target URL, modify the AI instructions to adjust how the data is processed, and define new data fields based on your needs.  
+- **Automated Price Monitoring** - Track product prices over time with scheduled scraping
+- **AI-Powered Data Extraction** - Leverage LLMs (OpenAI, Gemini, GROQ) to intelligently process and extract structured data
+- **Flexible Website Support** - Originally designed for Amazon but adaptable to any e-commerce website
+- **Data Storage & Analysis** - Store historical price data in MongoDB for trend analysis
+- **Price Change Alerts** - Identify significant price changes and discount opportunities
+- **Rating & Review Tracking** - Monitor product ratings and number of reviews over time
+- **Customizable Selectors** - Configure CSS selectors to target specific elements on different websites
 
-## Potential Use Cases  
+## Benefits
 
-- **Lead Generation** – Collect business emails, phone numbers, and addresses to build targeted outreach lists.  
-- **Market Research** – Gather real-time industry data to analyze trends and customer behavior.  
-- **Competitor Analysis** – Monitor pricing, services, and customer reviews to stay competitive.  
-- **AI Data Enrichment** – Use LLMs to clean and categorize data for better insights.  
-- **Research & Analysis** – Extract structured data from directories, reports, and other sources for business or academic studies.  
+- **Competitive Intelligence** - Gain insights into competitor pricing strategies and market positioning
+- **Price Optimization** - Make data-driven decisions about your own pricing based on market trends
+- **Market Research** - Gather real-time industry data to analyze trends and customer behavior
+- **Opportunity Identification** - Quickly spot pricing gaps and market opportunities
+- **Automated Monitoring** - Save time with automated data collection instead of manual checking
+- **Historical Analysis** - Track pricing patterns over time to predict future changes
+- **Data-Driven Strategy** - Base business decisions on concrete data rather than assumptions
 
-## Project Structure
+## Technical Implementation
 
-```
-.
-├── main.py # Main entry point for the crawler
-├── config.py # Contains configuration constants (LLM Models, Base URL, CSS selectors, etc.)
-├── models
-│ └── business.py # Defines the Local Business data model using Pydantic
-├── src
-│ ├── utils.py # Utility functions for processing and saving data
-│ └── scraper.py # functions for configuring and running the crawler
-└── requirements.txt # Python package dependencies
-```
+The project uses:
+- **Crawl4AI** for web scraping with browser automation
+- **MongoDB** for persistent data storage
+- **Pydantic** for data validation and modeling
+- **Multiple LLM providers** (OpenAI, Gemini, GROQ) for intelligent data processing
+- **Asynchronous programming** for efficient web scraping
 
-# How to Run
-## Prerequisites
-Ensure you have the following installed:
-- Python 3.11+
-- LLM provider API key (OpenAI, Gemini, Claude,...)
-- Necessary Python libraries (listed in `requirements.txt`)
+## Adaptability
 
-## Setup
-### Clone the Repository
-```bash
-git clone https://github.com/kaymen99/llm-web-scraper
-cd llm-web-scraper
-```
+This tool is highly adaptable and can be configured to:
+- Track products on different e-commerce platforms
+- Extract various types of product information
+- Customize data processing based on specific business needs
+- Integrate with other systems for comprehensive competitive analysis
 
-### Create and Activate a Virtual Environment
-```bash
-python -m venv venv
-source venv/bin/activate  # On Windows use `venv\Scripts\activate`
-```
+## Getting Started
 
-### Install Required Packages
-```bash
-pip install -r requirements.txt
-playwright install
-```
-
-### Set Up Environment Variables
-Create a `.env` file in the root directory and add necessary credentials:
-
-```ini
-# API keys for LLMs providers, add key for every provider you want to use
-OPENAI_API_KEY=""            # OpenAI API key for accessing OpenAI's models and services
-GEMINI_API_KEY=""            # Google Cloud API key for accessing Google Cloud services
-GROQ_API_KEY=""              # GROQ platform API key for using GROQ's services
-```
-
-## Running the scraper
-
-To start the scraper, run:
-
-```bash
-python main.py
-```
-
-The script will crawl the specified website, extract data page by page, and save the complete venues to a `businesses_data.csv` file in the project directory. Additionally, usage statistics for the LLM strategy will be displayed after crawling.
-
-## Configuration  
-
-The `config.py` file contains key settings for controlling the scraper's behavior. You can modify these values to customize the scraping process:  
-
-- **LLM_MODEL**: The AI model used for data extraction. Supports any LLM from **LiteLLM** (e.g., `gpt-4o`, `claude`, `deepseek-chat`, `gemini-2.0-flash`). 
-- **BASE_URL**: The target website to scrape. By default, it extracts **dentists in Toronto** from Yellow Pages, but you can change this to any business category or location.  
-- **CSS_SELECTOR**: The HTML selector used to pinpoint business details within the page.  
-- **MAX_PAGES**: Limits the number of pages to crawl (default: `3`). Increase this value to scrape more data.  
-- **SCRAPER_INSTRUCTIONS**: Custom LLM prompt defining what details to extract .
-
-# Contributing
-Contributions are welcome! Please open an issue or submit a pull request for any changes.
-
-# Contact
-If you have any questions or suggestions, feel free to contact me at `aymenMir1001@gmail.com`.
+See the installation and setup instructions in the project documentation to start tracking competitor products and gaining valuable market insights today.
