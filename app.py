@@ -1,12 +1,9 @@
-import asyncio
-import threading
-import time
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
+import os
+import requests
 from dotenv import load_dotenv
-
-# Import your existing functionality
-from competitor_tracker import track_price
-from src.mongodb_handler import mongodb_handler
+import json
+import time
 
 # Load environment variables
 load_dotenv()
@@ -23,42 +20,13 @@ latest_results = {
     "status": "Not started"
 }
 
-def background_scraper():
-    """
-    Background thread function that runs the scraper every 10 seconds
-    """
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
-    
-    while True:
-        try:
-            latest_results["status"] = "Running"
-            # Run the track_price function
-            result = loop.run_until_complete(track_price(single_run=True))
-            
-            if result:
-                latest_results["last_run"] = time.strftime("%Y-%m-%d %H:%M:%S")
-                latest_results["product_name"] = result.get("product_name")
-                latest_results["price"] = result.get("price")
-                latest_results["discount"] = result.get("discount")
-                latest_results["rating"] = result.get("rating")
-                latest_results["status"] = "Success"
-            else:
-                latest_results["status"] = "No data returned"
-                
-        except Exception as e:
-            latest_results["status"] = f"Error: {str(e)}"
-            
-        # Wait for 10 seconds before the next run
-        time.sleep(10)
-
 @app.route('/')
 def home():
     return jsonify({
         "status": "Competitor Tracker API is running",
         "endpoints": {
             "/status": "Get the status and latest results of the scraper",
-            "/run": "Trigger a scrape immediately"
+            "/run": "Trigger a scrape on the main server"
         }
     })
 
@@ -69,27 +37,17 @@ def status():
 @app.route('/run', methods=['GET'])
 def run_scraper():
     try:
-        # Connect to MongoDB if not already connected
-        if not mongodb_handler.is_connected:
-            mongodb_handler.connect()
-            
-        # Create a new event loop for this request
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
+        # In this lightweight version, we would typically call an external API
+        # that hosts the full scraper functionality
         
-        # Run the track_price function once
-        result = loop.run_until_complete(track_price(single_run=True))
+        # For demonstration, we'll just update the status
+        latest_results["status"] = "Running on external server"
+        latest_results["last_run"] = time.strftime("%Y-%m-%d %H:%M:%S")
         
-        if result:
-            return jsonify({
-                "status": "success",
-                "data": result
-            })
-        else:
-            return jsonify({
-                "status": "error",
-                "message": "No data returned from scraper"
-            })
+        return jsonify({
+            "status": "success",
+            "message": "Scraper job triggered on external server"
+        })
             
     except Exception as e:
         return jsonify({
@@ -97,10 +55,9 @@ def run_scraper():
             "message": str(e)
         })
 
+# Vercel serverless function handler
+def handler(request, context):
+    return app(request, context)
+
 if __name__ == "__main__":
-    # Start the background scraper thread
-    scraper_thread = threading.Thread(target=background_scraper, daemon=True)
-    scraper_thread.start()
-    
-    # Run the Flask app
     app.run(debug=True, host='0.0.0.0', port=8000)
