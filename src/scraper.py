@@ -31,7 +31,7 @@ def get_browser_config() -> BrowserConfig:
     # https://docs.crawl4ai.com/core/browser-crawler-config/
     return BrowserConfig(
         browser_type="chromium",  # Type of browser that we gonna simulate
-        headless=True,  # Whether to run in headless mode (no GUI)
+        headless=True,  # Set to True for server deployment
         verbose=True,  # Enable verbose logging
                        # provide more detailed logs about its actions, such as loading pages,
                        # encountering errors, or extracting content.

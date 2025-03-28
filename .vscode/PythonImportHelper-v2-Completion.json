@@ -195,6 +195,14 @@
         "documentation": {}
     },
     {
+        "label": "mongodb_handler",
+        "importPath": "src.mongodb_handler",
+        "description": "src.mongodb_handler",
+        "isExtraImport": true,
+        "detail": "src.mongodb_handler",
+        "documentation": {}
+    },
+    {
         "label": "MongoClient",
         "importPath": "pymongo.mongo_client",
         "description": "pymongo.mongo_client",
@@ -208,6 +216,14 @@
         "description": "pymongo.server_api",
         "isExtraImport": true,
         "detail": "pymongo.server_api",
+        "documentation": {}
+    },
+    {
+        "label": "load_dotenv",
+        "importPath": "dotenv",
+        "description": "dotenv",
+        "isExtraImport": true,
+        "detail": "dotenv",
         "documentation": {}
     },
     {
@@ -431,6 +447,48 @@
         "documentation": {}
     },
     {
+        "label": "threading",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "threading",
+        "description": "threading",
+        "detail": "threading",
+        "documentation": {}
+    },
+    {
+        "label": "time",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "time",
+        "description": "time",
+        "detail": "time",
+        "documentation": {}
+    },
+    {
+        "label": "Flask",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "jsonify",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "track_price",
+        "importPath": "competitor_tracker",
+        "description": "competitor_tracker",
+        "isExtraImport": true,
+        "detail": "competitor_tracker",
+        "documentation": {}
+    },
+    {
         "label": "extract_product_price",
         "importPath": "src.price_extractor",
         "description": "src.price_extractor",
@@ -559,7 +617,7 @@
         "kind": 2,
         "importPath": "src.scraper",
         "description": "src.scraper",
-        "peekOfCode": "def get_browser_config() -> BrowserConfig:\n    \"\"\"\n    Returns the browser configuration for the crawler.\n    Returns:\n        BrowserConfig: The configuration settings for the browser.\n    \"\"\"\n    # https://docs.crawl4ai.com/core/browser-crawler-config/\n    return BrowserConfig(\n        browser_type=\"chromium\",  # Type of browser that we gonna simulate\n        headless=True,  # Whether to run in headless mode (no GUI)",
+        "peekOfCode": "def get_browser_config() -> BrowserConfig:\n    \"\"\"\n    Returns the browser configuration for the crawler.\n    Returns:\n        BrowserConfig: The configuration settings for the browser.\n    \"\"\"\n    # https://docs.crawl4ai.com/core/browser-crawler-config/\n    return BrowserConfig(\n        browser_type=\"chromium\",  # Type of browser that we gonna simulate\n        headless=True,  # Set to True for server deployment",
         "detail": "src.scraper",
         "documentation": {}
     },
@@ -591,11 +649,65 @@
         "documentation": {}
     },
     {
+        "label": "background_scraper",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def background_scraper():\n    \"\"\"\n    Background thread function that runs the scraper every 10 seconds\n    \"\"\"\n    loop = asyncio.new_event_loop()\n    asyncio.set_event_loop(loop)\n    while True:\n        try:\n            latest_results[\"status\"] = \"Running\"\n            # Run the track_price function",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "home",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def home():\n    return jsonify({\n        \"status\": \"Competitor Tracker API is running\",\n        \"endpoints\": {\n            \"/status\": \"Get the status and latest results of the scraper\",\n            \"/run\": \"Trigger a scrape immediately\"\n        }\n    })\n@app.route('/status')\ndef status():",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "status",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def status():\n    return jsonify(latest_results)\n@app.route('/run', methods=['GET'])\ndef run_scraper():\n    try:\n        # Connect to MongoDB if not already connected\n        if not mongodb_handler.is_connected:\n            mongodb_handler.connect()\n        # Create a new event loop for this request\n        loop = asyncio.new_event_loop()",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "run_scraper",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def run_scraper():\n    try:\n        # Connect to MongoDB if not already connected\n        if not mongodb_handler.is_connected:\n            mongodb_handler.connect()\n        # Create a new event loop for this request\n        loop = asyncio.new_event_loop()\n        asyncio.set_event_loop(loop)\n        # Run the track_price function once\n        result = loop.run_until_complete(track_price(single_run=True))",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "app",
+        "kind": 5,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "app = Flask(__name__)\n# Global variable to store the latest scraping results\nlatest_results = {\n    \"last_run\": None,\n    \"product_name\": None,\n    \"price\": None,\n    \"discount\": None,\n    \"rating\": None,\n    \"status\": \"Not started\"\n}",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "latest_results",
+        "kind": 5,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "latest_results = {\n    \"last_run\": None,\n    \"product_name\": None,\n    \"price\": None,\n    \"discount\": None,\n    \"rating\": None,\n    \"status\": \"Not started\"\n}\ndef background_scraper():\n    \"\"\"",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
         "label": "TRACKING_INTERVAL",
         "kind": 5,
         "importPath": "competitor_tracker",
         "description": "competitor_tracker",
-        "peekOfCode": "TRACKING_INTERVAL = 10  # seconds\n# Initialize MongoDB connection\nmongodb_handler.connect()\nasync def track_price():\n    \"\"\"\n    Main function to track the price of a product over time.\n    \"\"\"\n    print(f\"Starting price tracker for: {BASE_URL}\")\n    print(f\"Checking price every {TRACKING_INTERVAL} seconds\")\n    print(f\"Price history will be saved to MongoDB and {CSV_FILENAME}\")",
+        "peekOfCode": "TRACKING_INTERVAL = 10  # seconds\n# Initialize MongoDB connection\nmongodb_handler.connect()\nasync def track_price(single_run=False):\n    \"\"\"\n    Main function to track the price of a product over time.\n    Args:\n        single_run (bool): If True, run once and return the result instead of looping\n    Returns:\n        dict: The extracted data if single_run is True, otherwise None",
         "detail": "competitor_tracker",
         "documentation": {}
     },
